@@ -9,9 +9,12 @@ import fun.tianrui.blog.utils.ArticleUtils;
 import fun.tianrui.blog.vo.ArticleIdAndTitle;
 import fun.tianrui.blog.vo.CategoryNameAndArticlesSize;
 import fun.tianrui.blog.vo.CategoryVO;
+import fun.tianrui.blog.vo.CategoryVOListAndTotalPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +38,21 @@ public class CategoryController {
     @GetMapping("/All")
     public List<CategoryVO> getAll() {
         return categoryRepository.findAllWithoutArticle();
+    }
+
+    @GetMapping("/All/page")
+    public CategoryVOListAndTotalPage getAllByPage(Integer page) {
+//         用list分页吧
+        if (null == page || page < 1) {
+            page = 1;
+        }
+        PageRequest pageable = PageRequest.of(--page, 9, Sort.Direction.DESC, "id");
+        Page<CategoryVO> categories = categoryRepository.findAllWithoutArticleByPage(pageable);
+        CategoryVOListAndTotalPage categoryVOListAndTotalPage = new CategoryVOListAndTotalPage();
+        categoryVOListAndTotalPage.setCategories(categories.get().collect(Collectors.toList()));
+        categoryVOListAndTotalPage.setTotalPage(categories.getTotalPages());
+        return categoryVOListAndTotalPage;
+
     }
 
     @GetMapping("/new")

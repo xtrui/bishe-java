@@ -1,11 +1,14 @@
 package fun.tianrui.blog.seviceImpl;
 
 import fun.tianrui.blog.entity.Article;
+import fun.tianrui.blog.entity.Comment;
 import fun.tianrui.blog.repository.ArticleRepository;
 import fun.tianrui.blog.service.ArticleService;
 import fun.tianrui.blog.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 /**
  * @author TIANRUI
@@ -35,6 +38,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article findById(Long id) {
-        return repository.findById(id).orElse(null);
+        Article article = repository.findById(id).orElse(null);
+        if (article != null) {
+            article.setComments(article.getComments().stream().filter(Comment::isPublic).collect(Collectors.toSet()));
+        }
+        return article;
     }
 }

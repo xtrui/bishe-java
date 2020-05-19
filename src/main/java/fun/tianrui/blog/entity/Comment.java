@@ -18,17 +18,10 @@ public class Comment implements Serializable {
     LocalDateTime time;
     @Column
     private String content;
+    @Column
+    boolean isPublic;
 
-
-    public Comment() {
-    }
-
-    public Comment(Long id, String name, LocalDateTime time, String content) {
-        this.id = id;
-        this.name = name;
-        this.time = time;
-        this.content = content;
-    }
+    Long articleId;
 
     @Override
     public String toString() {
@@ -37,7 +30,41 @@ public class Comment implements Serializable {
                 ", name='" + name + '\'' +
                 ", time=" + time +
                 ", content='" + content + '\'' +
+                ", isPublic=" + isPublic +
+                ", articleId=" + articleId +
+                ", user=" + user +
                 '}';
+    }
+
+    public Long getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
+
+
+    @OneToOne
+    private User user;
+
+    public Comment() {
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {

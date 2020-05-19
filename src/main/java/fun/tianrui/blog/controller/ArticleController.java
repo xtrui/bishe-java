@@ -10,6 +10,7 @@ import fun.tianrui.blog.vo.ArticleIdAndTitle;
 import fun.tianrui.blog.vo.ArticleIdAndTitleListAndTotalPage;
 import fun.tianrui.blog.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class ArticleController {
 
     @GetMapping("/detail")
     public Article getArticle(Long id) {
-        System.out.println(id);
+
         return articleService.findById(id);
     }
 
@@ -53,12 +54,12 @@ public class ArticleController {
             page = 1;
         }
         PageRequest pageable = PageRequest.of(--page, 9, Sort.Direction.DESC, "time");
-        articleRepository.findByTitleLike("%" + key + "%", pageable);
+        Page<Article> articles = articleRepository.findByTitleLike("%" + key + "%", pageable);
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         ArticleIdAndTitleListAndTotalPage articleIdAndTitleListAndTotalPage = new ArticleIdAndTitleListAndTotalPage();
-        articleIdAndTitleListAndTotalPage.setArticleIdAndTitleList(articleRepository.findByTitleLike("%" + key + "%", pageable).get()
+        articleIdAndTitleListAndTotalPage.setArticleIdAndTitleList(articles.get()
                 .map(e -> mapper.map(e, ArticleIdAndTitle.class)).collect(Collectors.toList()));
-        articleIdAndTitleListAndTotalPage.setTotalPage(articleRepository.findByTitleLike("%" + key + "%", pageable).getTotalPages());
+        articleIdAndTitleListAndTotalPage.setTotalPage(articles.getTotalPages());
         return articleIdAndTitleListAndTotalPage;
     }
 
