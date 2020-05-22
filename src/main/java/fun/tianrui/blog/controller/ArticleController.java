@@ -9,12 +9,15 @@ import fun.tianrui.blog.utils.ArticleUtils;
 import fun.tianrui.blog.vo.ArticleIdAndTitle;
 import fun.tianrui.blog.vo.ArticleIdAndTitleListAndTotalPage;
 import fun.tianrui.blog.vo.ArticleVO;
+import fun.tianrui.blog.vo.ArticleWithIDVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -79,5 +82,43 @@ public class ArticleController {
         return articleIdAndTitleListAndTotalPage;
     }
 
+    //更新文章
+    @PostMapping("/updateArticle")
+    public String updateArticle(@RequestBody ArticleWithIDVO articleWithIDVO) {
+
+        if (articleWithIDVO == null || articleWithIDVO.getCategories() == null) return "0";
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        ArticleVO articleVO = mapper.map(articleWithIDVO, ArticleVO.class);
+        Article article = articleUtils.toArticle(articleVO);
+        article.setId(articleWithIDVO.getId());
+        article.setContent(article.getContent().concat("*\n \n \n \n最近更新" + LocalDateTime.now() + "*"));
+        articleService.saveArticle(article);
+        return article.getId().toString();
+    }
+
+    //删除文章
+    @PostMapping("/deleteArticleByIds")
+    public boolean deleteArticle(@RequestBody List<Long> ids) {
+//        articleRepository.deleteById(1L);
+        try {
+            ids.forEach(articleRepository::deleteById);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @PostMapping("/deleteArticleById")
+    public boolean deleteArticle(Long id) {
+//        articleRepository.deleteById(1L);
+        try {
+            articleRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

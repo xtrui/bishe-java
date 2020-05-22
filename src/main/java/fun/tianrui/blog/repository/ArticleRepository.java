@@ -15,4 +15,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpec
     List<Article> findAllByTitle(String title);
 
     Page<Article> findByTitleLike(String key, Pageable page);
+
+    Void deleteByIdIn(List<Long> ids);
 }
