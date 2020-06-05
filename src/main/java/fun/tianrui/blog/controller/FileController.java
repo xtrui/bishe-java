@@ -1,7 +1,8 @@
 package fun.tianrui.blog.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/file")
 public class FileController {
-    @PostMapping("/upFile")
-    public String upFile(MultipartFile file) {
+    @RequestMapping(value = "/upFile", headers = "Content-Type= multipart/form-data", method = RequestMethod.POST)
+    public String upFile(@RequestParam MultipartFile file) {
         System.out.println("开始上传了");
-//        System.out.println(request.getAttribute("file"));
+        System.out.println(file);
         System.out.println();
 
 //        try {

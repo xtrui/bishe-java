@@ -6,14 +6,34 @@ public class ArticleVO {
     String title;
     String content;
     Set<String> categories;
+    String videoSrc;
+    String postSrc;
 
     @Override
     public String toString() {
-        return "articleVO{" +
+        return "ArticleVO{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", categories=" + categories +
+                ", videoSrc='" + videoSrc + '\'' +
+                ", postSrc='" + postSrc + '\'' +
                 '}';
+    }
+
+    public String getPostSrc() {
+        return postSrc;
+    }
+
+    public void setPostSrc(String postSrc) {
+        this.postSrc = postSrc;
+    }
+
+    public String getVideoSrc() {
+        return videoSrc;
+    }
+
+    public void setVideoSrc(String videoSrc) {
+        this.videoSrc = videoSrc;
     }
 
     public String getTitle() {

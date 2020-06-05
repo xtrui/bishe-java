@@ -72,7 +72,9 @@ public class CategoryController {
         //处理成分页
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         return ArticleUtils.toArticleByPage(optional.get().getArticles(), page)
-                .stream().map(e -> mapper.map(e, ArticleIdAndTitle.class))
+                .stream().sorted((e1, e2) -> {
+                    return e2.getId().compareTo(e1.getId());
+                }).map(e -> mapper.map(e, ArticleIdAndTitle.class))
                 .collect(Collectors.toList());
     }
 

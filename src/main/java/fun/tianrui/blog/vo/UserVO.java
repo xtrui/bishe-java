@@ -4,14 +4,24 @@ public class UserVO {
     Long id;
     String username;
     Boolean role;
+    String email;
 
     @Override
     public String toString() {
         return "UserVO{" +
                 "id=" + id +
-                ", name='" + username + '\'' +
-                ", isAdmin=" + role +
+                ", username='" + username + '\'' +
+                ", role=" + role +
+                ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package fun.tianrui.blog.service;
 
 import fun.tianrui.blog.entity.Article;
+import fun.tianrui.blog.vo.ArticleIdAndTitleListAndTotalPage;
 import fun.tianrui.blog.vo.ArticleVO;
 
 /**
@@ -19,4 +20,6 @@ public interface ArticleService {
     Article findById(Long id);
 
     Article handleVO(ArticleVO articleVO);
+
+    ArticleIdAndTitleListAndTotalPage getArticleListByPage(Integer page);
 }

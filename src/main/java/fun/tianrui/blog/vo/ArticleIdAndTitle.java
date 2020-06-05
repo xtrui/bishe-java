@@ -6,6 +6,7 @@ public class ArticleIdAndTitle {
     String title;
     Long id;
     LocalDateTime time;
+    String postSrc;
 
     @Override
     public String toString() {
@@ -13,7 +14,16 @@ public class ArticleIdAndTitle {
                 "title='" + title + '\'' +
                 ", id=" + id +
                 ", time=" + time +
+                ", postSrc='" + postSrc + '\'' +
                 '}';
+    }
+
+    public String getPostSrc() {
+        return postSrc;
+    }
+
+    public void setPostSrc(String postSrc) {
+        this.postSrc = postSrc;
     }
 
     public LocalDateTime getTime() {

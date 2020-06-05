@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,12 +26,19 @@ public class Article implements Serializable {
     @Column
     private LocalDateTime time;
 
+    @Column
+    private String videoSrc;
+    @Column
+    private String postSrc;
+
+
     @JsonIgnoreProperties(value = {"articles"})
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;
 
-    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
-    private Set<Comment> comments;
+    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("time DESC ")
+    private List<Comment> comments;
 
 
     @Override
@@ -40,9 +48,27 @@ public class Article implements Serializable {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", time=" + time +
+                ", videoSrc='" + videoSrc + '\'' +
+                ", postSrc='" + postSrc + '\'' +
                 ", categories=" + categories +
                 ", comments=" + comments +
                 '}';
+    }
+
+    public String getPostSrc() {
+        return postSrc;
+    }
+
+    public void setPostSrc(String postSrc) {
+        this.postSrc = postSrc;
+    }
+
+    public String getVideoSrc() {
+        return videoSrc;
+    }
+
+    public void setVideoSrc(String videoSrc) {
+        this.videoSrc = videoSrc;
     }
 
     public LocalDateTime getTime() {
@@ -57,7 +83,11 @@ public class Article implements Serializable {
         this.categories = categories;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -65,9 +95,6 @@ public class Article implements Serializable {
         return categories;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
 
     public Article() {
         this.categories = new HashSet<Category>();

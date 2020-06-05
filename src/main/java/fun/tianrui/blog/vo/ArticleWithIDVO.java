@@ -7,6 +7,8 @@ public class ArticleWithIDVO {
     String title;
     String content;
     Set<String> categories;
+    String videoSrc;
+    String postSrc;
 
     @Override
     public String toString() {
@@ -15,7 +17,25 @@ public class ArticleWithIDVO {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", categories=" + categories +
+                ", videoSrc='" + videoSrc + '\'' +
+                ", postSrc='" + postSrc + '\'' +
                 '}';
+    }
+
+    public String getPostSrc() {
+        return postSrc;
+    }
+
+    public void setPostSrc(String postSrc) {
+        this.postSrc = postSrc;
+    }
+
+    public String getVideoSrc() {
+        return videoSrc;
+    }
+
+    public void setVideoSrc(String videoSrc) {
+        this.videoSrc = videoSrc;
     }
 
     public Long getId() {

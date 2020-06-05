@@ -41,7 +41,6 @@ public class CommentController {
         Article article = articleRepository.getOne(articleId);
         article.getComments().add(result);
         articleRepository.save(article);
-        System.out.println(result);
         return true;
     }
 
@@ -51,9 +50,22 @@ public class CommentController {
      */
     @GetMapping("/getAllComment")
     CommentListAndTotalPage getAllCommentByPage(Integer page) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "time");
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(--page, 20, sort);
         Page<Comment> commentPage = commentRepository.findAll(pageRequest);
+        List<Comment> commentList = commentPage.toList().stream().peek(e -> e.getUser().setPassword("")).collect(Collectors.toList());
+        System.out.println(commentList);
+        CommentListAndTotalPage commentListAndTotalPage = new CommentListAndTotalPage();
+        commentListAndTotalPage.setComments(commentList);
+        commentListAndTotalPage.setTotalPage(commentPage.getTotalPages());
+        return commentListAndTotalPage;
+    }
+
+    @GetMapping("/getUserComment")
+    CommentListAndTotalPage getUserCommentByPage(Integer page, Long userId) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageRequest = PageRequest.of(--page, 20, sort);
+        Page<Comment> commentPage = commentRepository.findByUserId(userId, pageRequest);
         List<Comment> commentList = commentPage.toList().stream().peek(e -> e.getUser().setPassword("")).collect(Collectors.toList());
         CommentListAndTotalPage commentListAndTotalPage = new CommentListAndTotalPage();
         commentListAndTotalPage.setComments(commentList);

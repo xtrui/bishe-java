@@ -2,9 +2,10 @@ package fun.tianrui.blog.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
-@Entity
-public class User implements Serializable {
+@Entity(name = "user")
+public class UserB implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,22 @@ public class User implements Serializable {
     String email;
     @Column
     Boolean role;
+
+//    @JsonIgnoreProperties(value = {"articles"})
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Category> categories;
+
+    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("time DESC ")
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     @Override
     public String toString() {

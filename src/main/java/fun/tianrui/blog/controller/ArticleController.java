@@ -37,15 +37,15 @@ public class ArticleController {
 
     @GetMapping("/detail")
     public Article getArticle(Long id) {
-
+        //        article.setComments(article.getComments().stream().sorted(Comparator.comparing(Comment::getTime)).collect(Collectors.toCollection(LinkedHashSet::new)));
         return articleService.findById(id);
     }
 
+    //发表文章
     @PostMapping("/postArticle")
     public String postArticle(@RequestBody ArticleVO articleVO) {
         if (articleVO == null || articleVO.getCategories() == null) return "0";
         Article article = articleUtils.toArticle(articleVO);
-        System.out.println(article);
         articleService.saveArticle(article);
         return article.getId().toString();
     }
@@ -70,7 +70,7 @@ public class ArticleController {
     @GetMapping("/getArticleListByPage")
     public ArticleIdAndTitleListAndTotalPage getArticleListByPage(Integer page) {
         if (null == page || page < 0) {
-            page = 0;
+            page = 1;
         }
         int size = 20;
         PageRequest pageable = PageRequest.of(--page, size, Sort.Direction.DESC, "time");
@@ -91,7 +91,7 @@ public class ArticleController {
         ArticleVO articleVO = mapper.map(articleWithIDVO, ArticleVO.class);
         Article article = articleUtils.toArticle(articleVO);
         article.setId(articleWithIDVO.getId());
-        article.setContent(article.getContent().concat("*\n \n \n \n最近更新" + LocalDateTime.now() + "*"));
+        article.setContent(article.getContent().concat("\n*\n \n \n \n最近更新" + LocalDateTime.now() + "*"));
         articleService.saveArticle(article);
         return article.getId().toString();
     }

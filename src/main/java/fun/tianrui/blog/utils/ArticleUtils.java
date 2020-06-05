@@ -42,6 +42,8 @@ public class ArticleUtils {
         article.setTime(LocalDateTime.now());
         article.setTitle(articleVO.getTitle());
         article.setContent(articleVO.getContent());
+        article.setVideoSrc(articleVO.getVideoSrc());
+        article.setPostSrc(articleVO.getPostSrc());
         return article;
     }
 

@@ -20,3 +20,25 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+
+  mail:
+    #    host: smtp.qq.com  这个QQ邮箱
+    port: 587
+    username: wenruijie@xtrui.cn
+    #    password: a2nEZW5WQv43di25
+    #    bwthoqbsyljqbfdd   haitongjie授权码
+    password: jqTmv2rE5eUAoCL6
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
+    #      下面这个是企业邮
+    host: smtp.exmail.qq.com
+

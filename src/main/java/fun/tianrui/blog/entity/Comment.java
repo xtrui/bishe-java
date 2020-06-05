@@ -21,6 +21,9 @@ public class Comment implements Serializable {
     @Column
     boolean isPublic;
 
+    @ManyToOne
+//    @JsonIgnoreProperties(value = {"comments","collections"})
+    private User user;
     Long articleId;
 
     @Override
@@ -44,9 +47,6 @@ public class Comment implements Serializable {
         this.articleId = articleId;
     }
 
-
-    @OneToOne
-    private User user;
 
     public Comment() {
     }
